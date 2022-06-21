@@ -1,15 +1,19 @@
 const express = require('express')
 const bodyParser= require('body-parser')
 const MongoClient = require('mongodb').MongoClient
-const cors = require('cors');
+const cors = require('cors')
+require('dotenv').config()
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors({ origin: '*' }))
 app.use(express.json())
-app.use(function(req,res,next){setTimeout(next, 1000)});
+// app.use(function(req,res,next){setTimeout(next, 1000)})
 
-const connectionString = 'mongodb+srv://Pu8z4tK6H5sU:a456asf645ass@cluster0.ejotl.gcp.mongodb.net/test?retryWrites=true&w=majority'
+const mongo_acc = process.env.mongo_acc
+const mongo_psw = process.env.mongo_psw
+const connectionString = `mongodb+srv://${mongo_acc}:${mongo_psw}@cluster0.ejotl.gcp.mongodb.net/test?retryWrites=true&w=majority`
+
 
 MongoClient.connect(connectionString, (err, client) => {
   if (err) return console.error(err)
