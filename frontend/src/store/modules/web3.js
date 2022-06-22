@@ -1,5 +1,6 @@
 import detectEthereumProvider from '@metamask/detect-provider'
 import { ethers } from "ethers"
+import { useMessage } from 'naive-ui'
 
 const state = () => ({
   abi: [ { "inputs": [], "name": "getMessages", "outputs": [ { "internalType": "string[]", "name": "", "type": "string[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "message", "type": "string" } ], "name": "pushMessage", "outputs": [], "stateMutability": "nonpayable", "type": "function" } ],
@@ -7,6 +8,7 @@ const state = () => ({
   provider: null,
   contract: null,
   messages: [],
+  transationState: null,
 })
 
 const getters = {
@@ -15,6 +17,9 @@ const getters = {
   },
   getContract(state) {
     return state.contract
+  },
+  getTRansationState(state) {
+    return state.transationState
   }
 }
 
@@ -52,9 +57,11 @@ const actions = {
     })
   },
   async postMessage({ commit, state }, msg) {
+    state.transationState = 'start'
     const transaction = await state.contract.pushMessage(msg)
+    state.transationState = 'going'
     await transaction.wait()
-    console.log('FINALLY CONFIRMED')
+    state.transationState = 'finished'
     commit("addMessage", msg)
   },
 }

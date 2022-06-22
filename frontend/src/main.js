@@ -9,10 +9,16 @@ import App from './App.vue'
 import './index.css'
 import store from './store/index'
 
-import Equal from 'equal-vue'
-import 'equal-vue/dist/style.css'
+import sal from "sal.js"
+import "/node_modules/sal.js/dist/sal.css"
+
+import naive from 'naive-ui'
+
+// atropos.js
+import 'atropos/css'
 
 const app = createApp(App)
-app.use(Equal)
 app.use(store)
+app.use(naive)
+app.use(sal)
 app.mount('#app')

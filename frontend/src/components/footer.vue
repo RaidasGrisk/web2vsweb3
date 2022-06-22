@@ -2,10 +2,22 @@
 </script>
 
 <template>
-    <div class="max-w-screen-xl px-4 py-32 mx-auto text-center">
-      footer
-    </div>
-  <div class="flex-grow border-t border-gray-200 py-4"></div>
+  <div class="flex flex-col justify-center items-center content-center">
+    <n-space vertical>
+      <n-h4 data-sal="slide-up" data-sal-duration="500" data-sal-delay="800" class="text-center">
+        <n-text type="info">
+          Web2vsWeb3
+        </n-text>
+      </n-h4>
+      <n-thing class="text-center items-center ustify-items-center justify-center" data-sal="slide-up" data-sal-duration="500" data-sal-delay="100">
+        ❤️❤️❤️
+      </n-thing>
+      <br>
+      <n-thing class="text-center items-center ustify-items-center justify-center" data-sal="slide-up" data-sal-duration="500" data-sal-delay="100">
+      </n-thing>
+    </n-space>
+  </div>
 </template>
+
 <style scoped>
 </style>

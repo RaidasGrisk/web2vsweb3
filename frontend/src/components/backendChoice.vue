@@ -1,28 +1,34 @@
 <script setup>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { CheckmarkCircle, EllipseOutline } from '@vicons/ionicons5'
+import { useLoadingBar } from 'naive-ui'
+import { useMessage } from 'naive-ui'
 
-
+const loadingBar = useLoadingBar()
+const message = useMessage()
 const store = useStore()
 const web3Connection = computed(() => { store.getters['web3/getContract'] })
 
 const clickEvent = (backend) => {
-  console.log('backendSet', backend)
   store.dispatch('global/setLoading', true)
   store.dispatch('global/setBackend', backend)
+  loadingBar.start()
 
   if (backend === 'web3') {
     store.dispatch('web3/setupConnection').then(() => {
       store.dispatch('web3/getMessages').then(() => {
-        console.log('got the messages from web3: backendCoince.vue')
         store.dispatch('global/setLoading', false)
+        loadingBar.finish()
+        message.info('Backend set to: WEB3')
       })
-      console.log('Contract: ', web3Connection.value)
     })
   }
   if (backend === 'web2') {
     store.dispatch('web2/getMessages').then(() => {
       store.dispatch('global/setLoading', false)
+      loadingBar.finish()
+      message.info('Backend set to WEB2')
     })
   }
 
@@ -31,48 +37,68 @@ const clickEvent = (backend) => {
 </script>
 
 <template>
-  <div class="text-center pt-10 text-xl font-medium">
-    {{ store.getters['global/getBackend'] }}
+  <div class="flex flex-col justify-center items-center content-center">
+    <n-space vertical :size="[0, 50]">
+      <n-h1 data-sal="slide-up" data-sal-duration="500" data-sal-delay="800" class="text-center">
+        <n-text type="info">
+          Switch between web2 and web3 backends ⚙️
+        </n-text>
+      </n-h1>
+      <n-thing data-sal="slide-up" data-sal-duration="500" data-sal-delay="100">
+        <n-grid x-gap="12" y-gap="24" :cols="2">
+          <n-gi>
+            <n-card title="WEB2"
+              :segmented="{ content: true, footer: 'soft', action: 'soft' }"
+              :style="'cursor: pointer; ' + (store.getters['global/getBackend'] == 'web2' ? 'border-color: var(--info-color); border-width: 5px;' : '')"
+              @click="clickEvent('web2')"
+            >
+              <template #header-extra>
+                <n-icon size="30" color="var(--primary-color)">
+                  <checkmark-circle v-if="store.getters['global/getBackend'] === 'web2'" />
+                  <ellipse-outline v-else/>
+                </n-icon>
+              </template>
+              <template #footer>
+                <n-text depth="3">
+                  Node.js + Mongo.db
+                </n-text>
+              </template>
+              <template #action>
+                <n-text depth="3" type="primary">
+                Runs on 2 separate VMs
+                </n-text>
+              </template>
+            </n-card>
+          </n-gi>
+          <n-gi>
+            <n-card
+              title="WEB3"
+              :segmented="{ content: true, footer: 'soft', action: 'soft' }"
+              :style="'cursor: pointer; ' + (store.getters['global/getBackend'] == 'web3' ? 'border-color: var(--info-color); border-width: 5px;' : '')"
+              @click="clickEvent('web3')"
+            >
+              <template #header-extra>
+                <n-icon size="30" color="var(--primary-color)">
+                  <checkmark-circle v-if="store.getters['global/getBackend'] === 'web3'" />
+                  <ellipse-outline v-else/>
+                </n-icon>
+              </template>
+              <template #footer>
+                <n-text depth="3">
+                  Ethereum VM<br>
+                </n-text>
+              </template>
+              <template #action>
+                <n-text depth="3" type="primary">
+                Runs on distributed EVM
+                </n-text>
+              </template>
+            </n-card>
+          </n-gi>
+        </n-grid>
+      </n-thing>
+    </n-space>
   </div>
-  <div class="w-96 px-4 py-6 mx-auto">
-    <div class="grid grid-cols-2 gap-8">
-
-      <div class="relative">
-        <input class="hidden group peer" type="radio" name="shippingOption" id="standard_alt" checked="checked" @click="clickEvent('web2')"/>
-        <label class="block p-4 text-sm font-medium transition-colors border border-gray-100 rounded-lg shadow-sm cursor-pointer peer-checked:border-blue-500 peer-checked:bg-gray-100 hover:bg-gray-100 peer-checked:ring-1 peer-checked:ring-blue-500" for="standard_alt">
-          <span> WEB2  </span>
-          <span class="block mt-1 text-xs text-gray-500">
-            Node.js <br>mongo.db
-          </span>
-        </label>
-        <svg class="absolute w-5 h-5 text-blue-600 opacity-0 top-4 right-4 peer-checked:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-        <span
-          class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 rounded"
-        ></span>
-      </div>
-
-      <div class="relative">
-        <input class="hidden group peer" type="radio" name="shippingOption" value="next_day_alt" id="next_day_alt" @click="clickEvent('web3')"/>
-        <label class="block p-4 text-sm font-medium transition-colors border border-gray-100 rounded-lg shadow-sm cursor-pointer peer-checked:border-blue-500 hover:bg-gray-100 peer-checked:ring-1 peer-checked:ring-blue-500" for="next_day_alt">
-          <span> WEB3 </span>
-          <span class="block mt-1 text-xs text-gray-500">
-            Ethereum (EVM)<br>
-            {{ web3Connection }}
-          </span>
-        </label>
-        <svg class="absolute w-5 h-5 text-blue-600 opacity-0 top-4 right-4 peer-checked:opacity-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-        <span
-          class="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 rounded"
-        ></span>
-      </div>
-
-    </div>
-  </div>
-  <div class="flex-grow border-t border-gray-200 py-4"></div>
 </template>
 
 <style scoped>
