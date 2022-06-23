@@ -37,6 +37,6 @@ MongoClient.connect(connectionString, (err, client) => {
 })
 
 
-app.listen(8000, function() {
+app.listen(80, function() {
   console.log('listening on 8000')
 })
