@@ -14,6 +14,9 @@ const mongo_acc = process.env.mongo_acc
 const mongo_psw = process.env.mongo_psw
 const connectionString = `mongodb+srv://${mongo_acc}:${mongo_psw}@cluster0.ejotl.gcp.mongodb.net/test?retryWrites=true&w=majority`
 
+app.get('/', function (req, res) {
+  res.send('Hey.')
+})
 
 MongoClient.connect(connectionString, (err, client) => {
   if (err) return console.error(err)
