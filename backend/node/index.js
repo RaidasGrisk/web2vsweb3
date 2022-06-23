@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors({ origin: '*' }))
+// app.use(cors({ origin: '*' }))
 app.use(express.json())
 // app.use(function(req,res,next){setTimeout(next, 1000)})
 
