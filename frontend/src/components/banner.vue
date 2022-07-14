@@ -39,7 +39,7 @@ const headerClass = "text-6xl font-extrabold text-transparent md:text-1xl bg-cli
     <n-h4 data-sal="slide-up" data-sal-duration="800" data-sal-delay="1000">
       <n-text type="success">
         Lets try out both and see what it's like <br>
-        <span style="font-size: 1.8rem;" data-sal="slide-up" data-sal-duration="500">🧐🐿️</span>
+        <span style="font-size: 1.8rem;" data-sal="slide-up" data-sal-duration="500">🧐️</span>
       </n-text>
     </n-h4>
   </n-space>

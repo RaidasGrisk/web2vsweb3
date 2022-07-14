@@ -42,7 +42,7 @@ onMounted(() => {
     <n-space vertical :size="[0, 50]">
       <n-h1 data-sal="slide-up" data-sal-duration="500" data-sal-delay="100" class="text-center">
         <n-text type="info">
-          How will we spot the difference?
+          Here's what we'll do
         </n-text>
       </n-h1>
       <n-thing>
@@ -68,6 +68,13 @@ onMounted(() => {
     <n-thing style="text-align: center; max-width: 350px; min-height: 320px;">
     <n-spin :show="isLoading" size="large">
       <n-card title="Message board 📝" data-sal="slide-up" data-sal-duration="500">
+        <template #header>
+          Message board 📝<br>
+          <n-tag :bordered="false" type="primary">
+            backend: <b>{{ store.getters['global/getBackend'] }}</b>
+          </n-tag>
+        </template>
+
         <n-data-table
           :columns="[{title: 'Message', key: 'message'}]"
           :data="messages"

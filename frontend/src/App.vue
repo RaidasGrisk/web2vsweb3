@@ -19,8 +19,8 @@ onMounted(() => {
 const theme = lightTheme
 theme.common.primaryColor = '#6E44FF'
 theme.common.primaryColorHover = '#6E44FF'
-theme.common.successColor = '#ECA400'
-theme.common.warningColor = '#F97068'
+theme.common.successColor = '#EFE9F4'
+theme.common.warningColor = '#EFE9F4'
 theme.common.infoColor = '#0D0A0B'
 
 </script>
