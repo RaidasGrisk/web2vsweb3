@@ -18,7 +18,7 @@ const actions = {
   async getMessages({ commit }) {
     await axios({
       method: 'get',
-      url: 'http://localhost:8000/getMessages',
+      url: 'https://web2vsweb3backendnode.vercel.app/getMessages',
     }).then((res) => {
       const msgArray = res.data.map(msg => msg.message)
       console.log(msgArray)
@@ -31,7 +31,7 @@ const actions = {
   async postMessage({ commit }, msg) {
     await axios({
       method: 'post',
-      url: 'http://localhost:8000/pushMessage',
+      url: 'https://web2vsweb3backendnode.vercel.app/pushMessage',
       data: {
         message: msg, // This is the body part
       }
