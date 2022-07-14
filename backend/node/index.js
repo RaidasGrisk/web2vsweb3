@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
-// app.use(cors({ origin: '*' }))
+app.use(cors({ origin: '*' }))
 app.use(express.json())
 // app.use(function(req,res,next){setTimeout(next, 1000)})
 
@@ -40,6 +40,6 @@ MongoClient.connect(connectionString, (err, client) => {
 })
 
 const PORT = process.env.PORT || 8080
-app.listen(PORT, function() {
+app.listen(PORT, () => {
   console.log(`listening on ${PORT}`)
 })
